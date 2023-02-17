@@ -189,17 +189,18 @@ export class Solicitud {
 
     insertarS = async (datos) => {
         // console.log(datos)
-        const sqlExists = `SELECT * FROM solicitud WHERE codigoSol = ${pool.escape(datos.codigoSol)}`;
-        const [result] = await pool.query(sqlExists)
+        // const sqlExists = `SELECT * FROM solicitud WHERE codigoSol = ${pool.escape(datos.codigoSol)}`;
+        // const [result] = await pool.query(sqlExists)
 
-        if (result.length === 0) {
+        // if (result.length === 0) {
             const resultado = await pool.query("INSERT INTO solicitud SET  ?", datos)
             return resultado
-        } else {
-            return {
-                existe: 1,
-            }
-        }
+        } 
+        // else {
+        //     return {
+        //         existe: 1,
+        //     }
+        // }
     }
     actualizarCodigoS = async (datos) => {
         // console.log(datos)

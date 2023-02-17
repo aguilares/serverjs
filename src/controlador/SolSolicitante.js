@@ -217,6 +217,7 @@ rutas.post("/registrarS", sInsertar, async (req, res) => {
             await req.body.examen.forEach(async id => {
                 const datos = {
                     idItemServicio: id,
+                    codigoSol: 000,
                     idSeguro: seguro,
                     idUsuarioSol: usuario,
                     idPaciente: paciente,

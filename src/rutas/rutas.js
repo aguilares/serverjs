@@ -13,7 +13,7 @@ import usuario from "../controlador/usuario.js";
 import miPerfil from "../controlador/miPerfil.js";
 //funciones disponibles para el administrador, solicitante y hasta para el laboratorista
 import paciente from '../controlador/paciente.js'
-import solicitudAdmin from '../controlador/solAdmin.js'
+import solicitudAdmin from '../controlador/solicitudAdmin.js'
 import solicitudSolicitante from '../controlador/SolSolicitante.js'
 import solicitudLaboratorista from '../controlador/solLaboratorista.js'
 import intervalo from '../controlador/intervalo.js'

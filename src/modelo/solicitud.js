@@ -1171,8 +1171,8 @@ export class Solicitud {
         inner join itemservicio item on s.idItemServicio = item.id
         WHERE s.fecha >= "${datos.ini}" and s.fecha <= "${datos.fin}" and s.idUsuarioSol = ${pool.escape(datos.usuario)} and
         item.encabezado = 1 and s.estado = 1 and s.recibidoLab = 1 and s.eliminar = 0
-        GROUP by se.nombre, s.id
-        order by s.id desc;`;
+        GROUP by se.nombre
+        `;
 
         const [rowsSeguro] = await pool.query(seguro)
         data.push(rowsSeguro)
@@ -1183,8 +1183,8 @@ export class Solicitud {
         inner join servicio se on item.idServicio = se.id
         WHERE s.fecha >= "${datos.ini}" and s.fecha <= "${datos.fin}" and s.idUsuarioSol = ${pool.escape(datos.usuario)} and
         item.encabezado = 1 and s.estado = 1 and s.recibidoLab = 1 and s.eliminar = 0
-        GROUP by se.nombre,se.id
-        order by se.id desc;`;
+        GROUP by se.nombre
+        `;
         const [rowsServicio] = await pool.query(servicio)
         data.push(rowsServicio)
 
@@ -1197,7 +1197,8 @@ export class Solicitud {
         WHERE  s.fecha >= "${datos.ini}" and s.fecha <= "${datos.fin}" and s.idUsuarioSol = ${pool.escape(datos.usuario)} and
         item.encabezado = 1 and s.estado = 1 and s.recibidoLab = 1 and s.eliminar = 0
         GROUP by s.fecha, s.id
-        order by s.id asc;`;
+        `;
+        // order by s.id asc;
 
         const [rowsFecha] = await pool.query(fecha)
 

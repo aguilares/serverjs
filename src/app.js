@@ -15,13 +15,13 @@ const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url))
 // console.log(__dirname)
 // app.use(cors())
-
+app.use(cors())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.set("puerto", PORT)
 // app.use(cors())
 // app.use(express.static(path.join(__dirname,"../imagenes")));
-app.use(cors())
+
 
 
 // app.use((req, res, next) => {
@@ -31,6 +31,8 @@ app.use(cors())
 //     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
 //     next();
 // });
+
+
 app.use(express.static(path.join(__dirname,"../imagenes")));
 
 app.disable('x-powered-by') // evita que el atacante sepa que 

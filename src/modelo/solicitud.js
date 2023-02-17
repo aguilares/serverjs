@@ -1171,7 +1171,7 @@ export class Solicitud {
         inner join itemservicio item on s.idItemServicio = item.id
         WHERE s.fecha >= "${datos.ini}" and s.fecha <= "${datos.fin}" and s.idUsuarioSol = ${pool.escape(datos.usuario)} and
         item.encabezado = 1 and s.estado = 1 and s.recibidoLab = 1 and s.eliminar = 0
-        GROUP by se.nombre, s.ids
+        GROUP by se.nombre, s.id
         order by s.id desc;`;
 
         const [rowsSeguro] = await pool.query(seguro)

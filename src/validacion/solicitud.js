@@ -181,8 +181,6 @@ export const reportes = [
     check('ini')
         .exists()
         .matches(/^\d{4}-\d{2}-\d{2}$/),
-
-
     check('fin')
         .exists()
         .matches(/^\d{4}-\d{2}-\d{2}$/),

@@ -1196,7 +1196,7 @@ export class Solicitud {
         inner join servicio se on item.idServicio = se.id
         WHERE  s.fecha >= "${datos.ini}" and s.fecha <= "${datos.fin}" and s.idUsuarioSol = ${pool.escape(datos.usuario)} and
         item.encabezado = 1 and s.estado = 1 and s.recibidoLab = 1 and s.eliminar = 0
-        GROUP by s.fecha
+        GROUP by s.fecha order by s.fecha asc;
         `;
         // order by s.id asc;
 

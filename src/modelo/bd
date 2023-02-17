@@ -1,0 +1,189 @@
+create table seguro(
+    id int AUTO_INCREMENT,
+    nombre varchar(50),
+    creado datetime,
+    modificado datetime,
+    usuario int,
+    PRIMARY key(id)
+) 
+create table hospital(
+    id int AUTO_INCREMENT,
+    red varchar(50) not null,
+    nombre varchar(50) NOT null,
+    telefono varchar(20) NOT null,
+    direccion varchar(60) NOT NULL,
+    creado datetime,
+    modificado datetime,
+    usuario int,
+    postada text, 
+    PRIMARY key(id),
+) 
+-- create table hospitalSeguro(
+--     id int AUTO_INCREMENT,
+--     idSeguro int,
+--     idHospital int,
+--     creado datetime,
+--     modificado datetime,
+--     usuario int,
+--     PRIMARY key(id),
+--     FOREIGN KEY (idSeguro) REFERENCES seguro(id),
+--     FOREIGN KEY (idHospital) REFERENCES hospital(id)
+-- )
+
+create table area(
+    id int AUTO_INCREMENT,
+    nombre varchar(50),
+    laboratorio boolean default 0,
+    creado datetime,
+    modificado datetime,
+    usuario int,
+    PRIMARY key(id),
+)
+
+create table servicio(
+    id int AUTO_INCREMENT,
+    idArea int,
+    nombre varchar(100),
+    creado datetime,
+    modificado datetime,
+    usuario int,
+    PRIMARY key(id),
+    FOREIGN KEY(idArea) REFERENCES area (id)
+)
+create table itemservicio(
+    id int AUTO_INCREMENT,
+    idServicio int,
+    nombre varchar(100),
+    codigo text,
+    encabezado boolean,
+    ok boolean default 1,
+    creado datetime,
+    modificado datetime,
+    usuario int,
+    PRIMARY key(id),
+    FOREIGN KEY(idServicio) REFERENCES servicio (id)
+)
+create table intervalo(
+    id int AUTO_INCREMENT,
+    idItemServicio int not null,
+    descripcion varchar(100) not null,
+    metodologia varchar(100) not null,
+    intervalo varchar(50) ,
+    unidad varchar(50),
+    inferior float DEFAULT 0,
+    superior float DEFAULT 0,
+    edad1 int,
+    edad2 int,
+    sexo varchar(1) not null,
+    muestras varchar(200),
+    creado datetime,
+    modificado datetime,
+    usuario int not null,
+    estado boolean default false,
+    PRIMARY key(id),
+    FOREIGN KEY(idItemServicio) REFERENCES itemServicio (id)
+)
+create table rol(
+    id int AUTO_INCREMENT,
+    nombre varchar(50),
+    numero int, 
+    creado datetime,
+    modificado datetime,
+    usuario int,
+    PRIMARY key(id)
+)
+create table usuario(
+    id int AUTO_INCREMENT,
+    idServicio int,
+    idRol int,
+    username varchar(50) unique,
+    pass varchar(50),
+    validar boolean default false,
+    ci varchar(10) unique,
+    nombre varchar(100),
+    apellidoPaterno varchar(50),
+    apellidoMaterno varchar(50),
+    telefono varchar(20),
+    direccion varchar(60),
+    creado datetime,
+    modificado datetime,
+    usuario int,
+    PRIMARY key(id),
+    FOREIGN KEY(idServicio) REFERENCES servicio (id),
+    FOREIGN KEY(idRol) REFERENCES rol (id)
+
+)
+create table sessiones(
+    id int AUTO_INCREMENT PRIMARY key,
+    idUsuario int not null,
+    fecha datetime not null,
+    token text not null,
+    FOREIGN key(idUsuario) REFERENCES usuario(id)
+)
+
+create table paciente(
+    id int AUTO_INCREMENT,
+    nombre varchar(100),
+    apellidoPaterno varchar(100),
+    apellidoMaterno varchar(100),
+    nhc text,
+    ci varchar(20) unique,
+    fechaNac date,
+    sexo varchar(1),
+    telefono varchar(15),
+    direccion varchar(100),
+    creado datetime,
+    modificado datetime,
+    usuario int,
+)
+
+create table solicitud(
+    -- solicitante
+        id int AUTO_INCREMENT,
+        idItemServicio int not null,
+        idSeguro int not null,
+        idUsuarioSol int not null,
+        idPaciente int not null,
+        codigoSol varchar(30) not null,
+        fecha date not null,
+        diagnostico varchar(400) not null,
+        horaSol time not null,
+        resultadoRecibido boolean default false,
+
+    -- administrador
+        idUsuarioAdmin int,
+        estado boolean default false,
+        fechaHoraAutorizacion datetime null, 
+        eliminar boolean default 0,
+        observacion varchar(400) default 'correcto',
+
+    -- laboratorista
+        recibidoLal boolean default false,
+        idUsuarioLab int,
+        idIntervalo int,
+        fechaRecLab date,
+        horaRecLab time,
+        fechaGenInforme datetime null, 
+        resultado text,
+        obs text, 
+        parcial boolean default false
+        fechaHoraPublicacionRes datetime default null,
+        publisher boolean default false,
+        firma text,
+        PRIMARY KEY (id),
+        FOREIGN KEY (idItemServicio) REFERENCES itemservicio(id),
+        FOREIGN KEY (idSeguro) REFERENCES seguro(id),
+        FOREIGN KEY (idUsuarioSol) REFERENCES usuario(id),
+        FOREIGN KEY (idPaciente) REFERENCES paciente(id),
+        FOREIGN KEY (idUsuarioAdmin) REFERENCES usuario(id),
+        FOREIGN KEY (idUsuarioLab) REFERENCES usuario(id),
+        FOREIGN KEY (idIntervalo) REFERENCES intervalo(id)
+)
+
+create table img(
+    id int AUTO_INCREMENT,
+    idSolicitud int,
+    nombre text,
+    PRIMARY key (id),
+    FOREIGN key (idSolicitud) REFERENCES solicitud(id)
+)

@@ -55,7 +55,7 @@ rutas.get("/registrarme", insertar, async (req, res) => {
 
         if (infoHospital.length === 1) {
 
-
+            console.log()
             let jConfig = {
                 "host": "smtp.gmail.com",
                 "port": "465",

@@ -9,14 +9,15 @@ create table seguro(
 create table hospital(
     id int AUTO_INCREMENT,
     red varchar(50) not null,
-    nombre varchar(50) NOT null,
+    nombre varchar(100) NOT null,
     telefono varchar(20) NOT null,
     direccion varchar(60) NOT NULL,
+    correo text NOT NULL,
     creado datetime,
     modificado datetime,
     usuario int,
-    postada text, 
-    PRIMARY key(id),
+    sello text not null, 
+    PRIMARY key(id)
 ) 
 -- create table hospitalSeguro(
 --     id int AUTO_INCREMENT,
@@ -39,6 +40,9 @@ create table area(
     usuario int,
     PRIMARY key(id),
 )
+
+
+
 
 create table servicio(
     id int AUTO_INCREMENT,
@@ -81,7 +85,7 @@ create table intervalo(
     usuario int not null,
     estado boolean default false,
     PRIMARY key(id),
-    FOREIGN KEY(idItemServicio) REFERENCES itemServicio (id)
+    FOREIGN KEY(idItemServicio) REFERENCES itemservicio (id)
 )
 create table rol(
     id int AUTO_INCREMENT,
@@ -96,6 +100,7 @@ create table usuario(
     id int AUTO_INCREMENT,
     idServicio int,
     idRol int,
+    correo varchar(100) NOT NULL,
     username varchar(50) unique,
     pass varchar(50),
     validar boolean default false,
@@ -105,6 +110,7 @@ create table usuario(
     apellidoMaterno varchar(50),
     telefono varchar(20),
     direccion varchar(60),
+    codigo text DEFAULT NULL,
     creado datetime,
     modificado datetime,
     usuario int,
@@ -158,17 +164,18 @@ create table solicitud(
         observacion varchar(400) default 'correcto',
 
     -- laboratorista
-        recibidoLal boolean default false,
+        recibidoLab boolean default false,
         idUsuarioLab int,
+        rol int NOT NULL DEFAULT 0,
         idIntervalo int,
         fechaRecLab date,
         horaRecLab time,
         fechaGenInforme datetime null, 
         resultado text,
         obs text, 
-        parcial boolean default false
+        parcial boolean default false,
         fechaHoraPublicacionRes datetime default null,
-        publisher boolean default false,
+        publisher tinyint(1) DEFAULT 0,
         firma text,
         PRIMARY KEY (id),
         FOREIGN KEY (idItemServicio) REFERENCES itemservicio(id),

@@ -40,6 +40,7 @@ rutas.get('/', async (req, res) => {
         from usuario 
         WHERE username = ${pool.escape(req.query.user)} and pass = ${pool.escape(req.query.pass)} and validar = 1`;
 
+        console.log(await pool.query(sql), 'resultados de la consulta inicial')
         const [result] = await pool.query(sql)
 
         // console.log("datos de la consulta: ", result)

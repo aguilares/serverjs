@@ -228,6 +228,7 @@ rutas.post("/registrarS", sInsertar, async (req, res) => {
 
                 await solicitud.insertarS(datos)
                     .then(async j => {
+                        console.log(j, 'data selecionada despues insertar un registro')
                         ids.push(j[0].insertId)
                         let codigo = 'S-' + j[0].insertId + usuario
                         if (j.affectedRows !== 0) {

@@ -701,13 +701,13 @@ export class Solicitud {
         const sql = `UPDATE solicitud SET
         idUsuarioAdmin = ${pool.escape(dato.usuario)},
         observacion = ${pool.escape(dato.observacion)},
-        eliminar = true
+        eliminar = true   
         WHERE codigoSol = ${pool.escape(dato.codigoSol)}`;
         await pool.query(sql);
         // console.log(await this.verSolicitud(dato.codigoSol))
         return await this.listarA()
     }
-
+  
 
     buscarA = async (dato) => {
         console.log(dato)
@@ -718,7 +718,7 @@ export class Solicitud {
             FROM solicitud s 
             inner join paciente p on s.idPaciente = p.id
             inner join itemservicio ism on s.idItemServicio = ism.id
-            where  s.eliminar = false and ism.encabezado = true
+            where ism.encabezado = true
             and (s.codigoSol like '${dato.dato}%'
             or s.fecha like '${dato.dato}%'
             or p.ci like '${dato.dato}%'

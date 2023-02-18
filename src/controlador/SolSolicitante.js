@@ -4,12 +4,12 @@ import { Seguro } from "../modelo/seguro.js"
 import { Servicio } from "../modelo/servicio.js"
 import { ItemServicio } from "../modelo/itemServicio.js"
 import {
-    sInsertar, sEditar, sEliminar, sBuscar, ver, buscarFecha, informe,informeImg, cardexEspecifico
+    sInsertar, sEditar, sEliminar, sBuscar, ver, buscarFecha, informe, informeImg, cardexEspecifico
 } from '../validacion/solicitud.js'
 
-import { eliminar, lista  } from '../validacion/itemServicio.js'
+import { eliminar, lista } from '../validacion/itemServicio.js'
 import {
-       reportes, reportes1,  reportesPS
+    reportes, reportes1, reportesPS
 } from '../validacion/solicitud.js'
 
 
@@ -226,15 +226,16 @@ rutas.post("/registrarS", sInsertar, async (req, res) => {
                     horaSol: hora
                 }
 
-                await solicitud.insertarS(datos)
+                await solicitud.insertarS(datos, ids)
                     .then(async j => {
-                        let dato = j[0].insertId
-                        console.log(dato, 'data selecionada despues insertar un registro')
-                        ids.push(dato)
-                        let codigo = 'S-' + j[0].insertId + usuario
+                        // let dato = j[0].insertId
+                        // console.log(dato, 'data selecionada despues insertar un registro')
+                        // ids.push(dato)
+                        // let codigo = 'S-' + j[0].insertId + usuario
                         if (j.affectedRows !== 0) {
                             c++
                             if (req.body.examen.length === c) {
+                                let codigo = 'S-' + ids[0] + usuario
                                 await solicitud.actualizarCodigo(ids, codigo)
                                 return res.json({ codigo: codigo })
                             }
@@ -281,7 +282,7 @@ rutas.post("/actualizarS", sEditar, async (req, res) => {
                             if (req.body.examen.length === c) {
                                 solicitud.verSolicitud(codigoSol).then(data => {
                                     console.log(data)
-                                    return res.json(data[0]) 
+                                    return res.json(data[0])
                                 })
                             }
                         } else {
@@ -290,7 +291,7 @@ rutas.post("/actualizarS", sEditar, async (req, res) => {
                     })
                 })
             }
-            else{
+            else {
                 return res.json({ msg: 'Error en el servidor, cruce de informacion, consulte con el administrador' })
             }
         } catch (error) {
@@ -356,7 +357,7 @@ rutas.post("/cardexEspecifico", cardexEspecifico, async (req, res) => {
     console.log(req.body, 'Solicitud de cardex especifico')
     const { id, campo } = req.body
     const dato1 = {
-        id,campo
+        id, campo
     }
     try {
         const resultado = await solicitud.cardexEspecifico(dato1)
@@ -400,9 +401,9 @@ rutas.post("/eliminarS", sEliminar, async (req, res) => {
 
 rutas.post("/recibirResultadosImagen", informeImg, async (req, res) => {
     console.log('datos alterados en la verificacion jjjjjj: ', req.body.id)
-    const { codigoSol, fecha,id } = req.body
+    const { codigoSol, fecha, id } = req.body
     const dato = {
-        codigoSol, fecha,id
+        codigoSol, fecha, id
     }
     try {
         const resultado = await solicitud.generarInformeImagen(dato)
@@ -448,10 +449,10 @@ rutas.post("/datoGraficos", reportes, async (req, res) => {
 
 
 
-rutas.post("/reportesSA", reportes, async (req, res) => {  
+rutas.post("/reportesSA", reportes, async (req, res) => {
     // console.log(req.body, 'se esta solictando examenes sin autorizar')
 
-    const { ini, fin, usuario} = req.body
+    const { ini, fin, usuario } = req.body
     const datos = { ini, fin, usuario }
     try {
         const resultado = await solicitud.reportesEstadoSASol(datos)
@@ -464,11 +465,11 @@ rutas.post("/reportesSA", reportes, async (req, res) => {
     }
 
 })
-rutas.post("/reportesCA", reportes, async (req, res) => {  
+rutas.post("/reportesCA", reportes, async (req, res) => {
     console.log(req.body)
 
-    const { ini, fin, usuario} = req.body
-    const datos = { ini, fin , usuario}
+    const { ini, fin, usuario } = req.body
+    const datos = { ini, fin, usuario }
     try {
         const resultado = await solicitud.reportesEstadoCASol(datos)
         // console.log(resultado)
@@ -480,7 +481,7 @@ rutas.post("/reportesCA", reportes, async (req, res) => {
     }
 })
 
-rutas.post("/reportesS", reportesPS, async (req, res) => {  
+rutas.post("/reportesS", reportesPS, async (req, res) => {
     console.log(req.body)
 
     const { ini, fin, idServicio } = req.body
@@ -500,7 +501,7 @@ rutas.post("/reportesS", reportesPS, async (req, res) => {
 
 
 
-rutas.post("/reportes1", reportes1, async (req, res) => {  
+rutas.post("/reportes1", reportes1, async (req, res) => {
     console.log(req.body, 'solicitud con seguros requerida')
 
     const { ini, fin, idSeguro, usuario } = req.body

@@ -187,19 +187,20 @@ export class Solicitud {
 
 
 
-    insertarS = async (datos) => {
+    insertarS = async (datos, ids) => {
         // console.log(datos)
-        const sqlExists = `SELECT * FROM solicitud WHERE codigoSol = ${pool.escape(datos.codigoSol)}`;
-        const [result] = await pool.query(sqlExists)
+        // const sqlExists = `SELECT * FROM solicitud WHERE codigoSol = ${pool.escape(datos.codigoSol)}`;
+        // const [result] = await pool.query(sqlExists)
 
-        if (result.length === 0) {
-            const resultado = await pool.query("INSERT INTO solicitud SET  ?", datos)
-            return resultado
-        } else {
-            return {
-                existe: 1,
-            }
-        }
+        // if (result.length === 0) {
+        const resultado = await pool.query("INSERT INTO solicitud SET  ?", datos)
+        ids.push(resultado[0].insertId, 'insertando inds el modelo de la solicitud', resultado[0].insertId)
+        return resultado
+        // } else {
+        //     return {
+        //         existe: 1,
+        //     }
+        // }
     }
     actualizarCodigoS = async (datos) => {
         // console.log(datos)
@@ -725,7 +726,7 @@ export class Solicitud {
             or p.apellidoPaterno like '${dato.dato}%'
             or p.apellidoMaterno like '${dato.dato}%')
             GROUP BY s.codigoSol order by s.id DESC`;
-            // console.log(sql)
+        // console.log(sql)
         const [rows] = await pool.query(sql)
         return rows
     }

@@ -195,7 +195,7 @@ export class Solicitud {
         // if (result.length === 0) {
             const resultado = await pool.query("INSERT INTO solicitud SET  ?", datos)
             return resultado
-        } 
+        // } 
         // else {
         //     return {
         //         existe: 1,

@@ -82,10 +82,10 @@ export class Usuario {
             left join rol r on u.idRol = r.id
             where u.nombre = ${pool.escape(dato)} or
             u.ci like '${dato}%' or
-            u.nombre = ${pool.escape(dato)} or
-            u.apellidoPaterno = ${pool.escape(dato)} or
-            u.apellidoMaterno = ${pool.escape(dato)}
-            ORDER by u.id DESC limit 10;`;
+            u.nombre = $ like '${dato}%' or
+            u.apellidoPaterno  like '${dato}%' or
+            u.apellidoMaterno  like '${dato}%'
+            ORDER by u.id`;
         const [rows] = await pool.query(sql)
         return rows
     }

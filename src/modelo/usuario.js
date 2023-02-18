@@ -75,6 +75,7 @@ export class Usuario {
     }
 
     buscar = async (dato) => {
+        console.log('los datos han llegado', dato)
         const sql =
             `SELECT u.id, u.correo, s.id as idServicio,s.nombre as servicio, r.id as idRol, r.nombre as rol, u.username, u.ci, u.nombre, u.apellidoPaterno,
             u.apellidoMaterno,u.telefono, u.direccion, u.validar 

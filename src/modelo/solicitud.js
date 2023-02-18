@@ -18,7 +18,7 @@ export class Solicitud {
 
     listarItemServicios = async (id) => {
         const sql =
-            `select itm.id, itm.nombre as item from itemservicio itm 
+            `select itm.id, itm.nombre as item from itemServicio itm 
             inner join servicio s on itm.idServicio = s.id
             inner join area a on s.idArea = a.id
             where a.laboratorio = true  and itm.encabezado = true and s.id = ${pool.escape(id)}`;
@@ -42,7 +42,7 @@ export class Solicitud {
             p.nhc,s.codigoSol,s.recibidoLab, s.estado, s.publisher
             FROM solicitud s 
             inner join paciente p on s.idPaciente = p.id
-            inner join itemservicio item on s.idItemServicio = item.id
+            inner join itemServicio item on s.idItemServicio = item.id
             WHERE s.fecha <= NOW() AND s.fecha >= date_add(NOW(), INTERVAL -51 DAY) and s.eliminar = false and 
             s.idUsuarioSol = ${pool.escape(dato)} and item.encabezado = 1
             GROUP BY s.codigoSol order by s.estado ASC , s.id desc limit 250`;
@@ -65,7 +65,7 @@ export class Solicitud {
             p.nhc,s.codigoSol,s.recibidoLab, s.estado, s.publisher
             FROM solicitud s 
             inner join paciente p on s.idPaciente = p.id
-            inner join itemservicio item on s.idItemServicio = item.id
+            inner join itemServicio item on s.idItemServicio = item.id
             where s.idUsuarioSol =${pool.escape(dato.usuario)}
             and s.eliminar = false and item.encabezado = true
             and (s.codigoSol = ${pool.escape(dato.dato)}
@@ -89,10 +89,10 @@ export class Solicitud {
             p.nhc,s.codigoSol,s.recibidoLab, s.estado, s.publisher
             FROM solicitud s 
             inner join paciente p on s.idPaciente = p.id
-            inner join itemservicio item on s.idItemServicio = item.id
+            inner join itemServicio item on s.idItemServicio = item.id
             where p.id =${pool.escape(dato.id)}
             and item.encabezado = true
-            GROUP BY s.codigoSol order by s.codigoSol`;
+            GROUP BY s.codigoSol order by s.id desc `;
         const [rows] = await pool.query(sql)
         return rows
     }
@@ -105,7 +105,7 @@ export class Solicitud {
             p.nhc,s.codigoSol,s.recibidoLab, s.estado, s.publisher
             FROM solicitud s 
             inner join paciente p on s.idPaciente = p.id
-            inner join itemservicio item on s.idItemServicio = item.id
+            inner join itemServicio item on s.idItemServicio = item.id
             where p.id =${pool.escape(dato.id)} and (
                 s.codigoSol = ${pool.escape(dato.campo)} or  s.fecha = ${pool.escape(dato.campo)} 
             )
@@ -126,7 +126,7 @@ export class Solicitud {
             p.nhc,s.codigoSol,s.recibidoLab, s.estado, s.publisher
             FROM solicitud s 
             inner join paciente p on s.idPaciente = p.id
-            inner join itemservicio item on s.idItemServicio = item.id
+            inner join itemServicio item on s.idItemServicio = item.id
             where s.idUsuarioSol =${pool.escape(dato.usuario)}
             and s.eliminar = false and item.encabezado = true
             and s.fecha >= ${pool.escape(dato.ini)} and s.fecha <= ${pool.escape(dato.fin)} 
@@ -144,7 +144,7 @@ export class Solicitud {
             p.nhc,s.codigoSol, s.estado,s.recibidoLab, s.publisher
             FROM solicitud s 
             inner join paciente p on s.idPaciente = p.id
-            inner join itemservicio item on s.idItemServicio = item.id
+            inner join itemServicio item on s.idItemServicio = item.id
             where s.idUsuarioSol =${pool.escape(dato.usuario)}
             and s.eliminar = false and item.encabezado = true
             and s.recibidoLab = 1 and s.publisher = 0 and s.resultadoRecibido = 0
@@ -159,7 +159,7 @@ export class Solicitud {
             p.nhc,s.codigoSol,s.recibidoLab, s.estado, s.publisher
             FROM solicitud s 
             inner join paciente p on s.idPaciente = p.id
-            inner join itemservicio item on s.idItemServicio = item.id
+            inner join itemServicio item on s.idItemServicio = item.id
             where s.idUsuarioSol =${pool.escape(dato.usuario)}
             and s.eliminar = false and item.encabezado = true
             and s.recibidoLab = 1 and s.publisher = 1 and s.resultadoRecibido = 0
@@ -175,7 +175,7 @@ export class Solicitud {
             p.nhc,s.codigoSol,s.recibidoLab, s.estado, s.publisher
             FROM solicitud s 
             inner join paciente p on s.idPaciente = p.id
-            inner join itemservicio item on s.idItemServicio = item.id
+            inner join itemServicio item on s.idItemServicio = item.id
             where s.idUsuarioSol =${pool.escape(dato.usuario)}
             and s.eliminar = false and item.encabezado = true
             and s.recibidoLab = 1 and s.publisher = 1 and s.resultadoRecibido = 1
@@ -189,18 +189,17 @@ export class Solicitud {
 
     insertarS = async (datos) => {
         // console.log(datos)
-        // const sqlExists = `SELECT * FROM solicitud WHERE codigoSol = ${pool.escape(datos.codigoSol)}`;
-        // const [result] = await pool.query(sqlExists)
+        const sqlExists = `SELECT * FROM solicitud WHERE codigoSol = ${pool.escape(datos.codigoSol)}`;
+        const [result] = await pool.query(sqlExists)
 
-        // if (result.length === 0) {
+        if (result.length === 0) {
             const resultado = await pool.query("INSERT INTO solicitud SET  ?", datos)
             return resultado
-        // } 
-        // else {
-        //     return {
-        //         existe: 1,
-        //     }
-        // }
+        } else {
+            return {
+                existe: 1,
+            }
+        }
     }
     actualizarCodigoS = async (datos) => {
         // console.log(datos)
@@ -266,7 +265,7 @@ export class Solicitud {
 
 
             FROM solicitud s 
-            inner join itemservicio ism on s.idItemServicio = ism.id
+            inner join itemServicio ism on s.idItemServicio = ism.id
             inner join paciente p on s.idPaciente = p.id
             inner join usuario u on s.idUsuarioSol = u.id
             left join intervalo i on s.idIntervalo = i.id
@@ -675,7 +674,7 @@ export class Solicitud {
             p.nhc,s.codigoSol,s.resultadoRecibido, s.estado,s.recibidoLab, s.publisher
             FROM solicitud s 
             inner join paciente p on s.idPaciente = p.id
-            inner join itemservicio item on item.id = s.idItemServicio
+            inner join itemServicio item on item.id = s.idItemServicio
             WHERE s.eliminar = false and item.encabezado = true and estado = false
             GROUP BY s.codigoSol order by s.id DESC limit 250`;
         const [rows] = await pool.query(sql)
@@ -739,7 +738,7 @@ export class Solicitud {
             p.nhc,s.codigoSol,s.resultadoRecibido, s.resultadoRecibido, s.estado,s.recibidoLab, s.publisher
             FROM solicitud s 
             inner join paciente p on s.idPaciente = p.id
-            inner join itemservicio item on s.idItemServicio = item.id
+            inner join itemServicio item on s.idItemServicio = item.id
             where  s.eliminar = false and item.encabezado = true
             and s.fecha >= ${pool.escape(dato.ini)} and s.fecha <= ${pool.escape(dato.fin)}
             GROUP BY s.codigoSol order by s.id DESC`;
@@ -756,7 +755,7 @@ export class Solicitud {
             p.nhc,s.codigoSol,s.resultadoRecibido, s.estado,s.recibidoLab, s.publisher
             FROM solicitud s 
             inner join paciente p on s.idPaciente = p.id
-            inner join itemservicio item on s.idItemServicio = item.id
+            inner join itemServicio item on s.idItemServicio = item.id
             where  s.eliminar = false and item.encabezado = true
             and s.recibidoLab = 1 and s.publisher = 0 and s.resultadoRecibido = 0
             GROUP BY s.codigoSol order by s.id DESC limit 250`;
@@ -770,7 +769,7 @@ export class Solicitud {
             p.nhc,s.codigoSol,s.resultadoRecibido, s.estado,s.recibidoLab, s.publisher
             FROM solicitud s 
             inner join paciente p on s.idPaciente = p.id
-            inner join itemservicio item on s.idItemServicio = item.id
+            inner join itemServicio item on s.idItemServicio = item.id
             where s.eliminar = false and item.encabezado = true
             and s.recibidoLab = 1 and s.publisher = 1 and s.resultadoRecibido = 0
             GROUP BY s.codigoSol order by s.id DESC limit 250`;
@@ -785,7 +784,7 @@ export class Solicitud {
             p.nhc,s.codigoSol,s.resultadoRecibido, s.estado,s.recibidoLab, s.publisher
             FROM solicitud s 
             inner join paciente p on s.idPaciente = p.id
-            inner join itemservicio item on s.idItemServicio = item.id
+            inner join itemServicio item on s.idItemServicio = item.id
             where s.eliminar = false and item.encabezado = true
             and s.recibidoLab = 1 and s.publisher = 1 and s.resultadoRecibido = 1
             GROUP BY s.codigoSol order by s.id DESC limit 250`;
@@ -1173,7 +1172,7 @@ export class Solicitud {
         WHERE s.fecha >= "${datos.ini}" and s.fecha <= "${datos.fin}" and s.idUsuarioSol = ${pool.escape(datos.usuario)} and
         item.encabezado = 1 and s.estado = 1 and s.recibidoLab = 1 and s.eliminar = 0
         GROUP by se.nombre
-        `;
+        order by s.id desc;`;
 
         const [rowsSeguro] = await pool.query(seguro)
         data.push(rowsSeguro)
@@ -1185,7 +1184,7 @@ export class Solicitud {
         WHERE s.fecha >= "${datos.ini}" and s.fecha <= "${datos.fin}" and s.idUsuarioSol = ${pool.escape(datos.usuario)} and
         item.encabezado = 1 and s.estado = 1 and s.recibidoLab = 1 and s.eliminar = 0
         GROUP by se.nombre
-        `;
+        order by se.id desc;`;
         const [rowsServicio] = await pool.query(servicio)
         data.push(rowsServicio)
 
@@ -1197,9 +1196,8 @@ export class Solicitud {
         inner join servicio se on item.idServicio = se.id
         WHERE  s.fecha >= "${datos.ini}" and s.fecha <= "${datos.fin}" and s.idUsuarioSol = ${pool.escape(datos.usuario)} and
         item.encabezado = 1 and s.estado = 1 and s.recibidoLab = 1 and s.eliminar = 0
-        GROUP by s.fecha order by s.fecha asc;
-        `;
-        // order by s.id asc;
+        GROUP by s.fecha
+        order by s.id asc;`;
 
         const [rowsFecha] = await pool.query(fecha)
 

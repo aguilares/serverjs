@@ -7,7 +7,7 @@ import {
 
 
 const rutas = Router()
-const solicitud = new Solicitud()
+const solicitud = new Solicitud() 
 
 
 
@@ -15,7 +15,7 @@ const solicitud = new Solicitud()
 
 
 // ADIMINISTRADOR
-rutas.post("/listarA", async (req, res) => {
+rutas.post("/listarA", async (req, res) => {   
     // console.log('datos alterados en la verificacion jjjjjj: ', req.body)
     try {
         const resultado = await solicitud.listarA()

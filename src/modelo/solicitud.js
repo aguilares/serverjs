@@ -712,7 +712,7 @@ export class Solicitud {
     buscarA = async (dato) => {
         console.log(dato)
         const sql =
-            `SELECT  COUNT(*) as cantidad, s.id,DATE_FORMAT(s.fecha, "%Y-%m-%d") as fecha,p.ci,
+            `SELECT s.eliminar,  COUNT(*) as cantidad, s.id,DATE_FORMAT(s.fecha, "%Y-%m-%d") as fecha,p.ci,
             upper(concat(p.nombre, " ",p.apellidoPaterno, " " , p.apellidoMaterno)) as paciente,s.diagnostico,
             p.nhc,s.codigoSol,s.resultadoRecibido, s.resultadoRecibido, s.estado,s.recibidoLab, s.publisher
             FROM solicitud s 

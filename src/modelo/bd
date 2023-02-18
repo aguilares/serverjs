@@ -150,7 +150,7 @@ create table solicitud(
         idSeguro int not null,
         idUsuarioSol int not null,
         idPaciente int not null,
-        codigoSol varchar(30),
+        codigoSol varchar(30) not null,
         fecha date not null,
         diagnostico varchar(400) not null,
         horaSol time not null,

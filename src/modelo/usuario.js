@@ -81,7 +81,7 @@ export class Usuario {
             from usuario u left join servicio s on u.idServicio = s.id 
             left join rol r on u.idRol = r.id
             where u.nombre = ${pool.escape(dato)} or
-            u.ci = ${pool.escape(dato)} or
+            u.ci like '${dato}%' or
             u.nombre = ${pool.escape(dato)} or
             u.apellidoPaterno = ${pool.escape(dato)} or
             u.apellidoMaterno = ${pool.escape(dato)}

@@ -194,7 +194,8 @@ export class Solicitud {
 
         // if (result.length === 0) {
         const resultado = await pool.query("INSERT INTO solicitud SET  ?", datos)
-        ids.push(resultado[0].insertId, 'insertando inds el modelo de la solicitud', resultado[0].insertId)
+        ids.push(resultado[0].insertId)
+        console.log('insertando inds el modelo de la solicitud', resultado[0].insertId)
         return resultado
         // } else {
         //     return {

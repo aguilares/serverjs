@@ -92,7 +92,7 @@ export class Solicitud {
             inner join itemservicio item on s.idItemServicio = item.id
             where p.id =${pool.escape(dato.id)}
             and item.encabezado = true
-            GROUP BY s.codigoSol order by s.id desc `;
+            GROUP BY s.codigoSol, s.id order by s.id desc `;
         const [rows] = await pool.query(sql)
         return rows
     }

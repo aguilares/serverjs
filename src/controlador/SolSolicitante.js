@@ -228,8 +228,9 @@ rutas.post("/registrarS", sInsertar, async (req, res) => {
 
                 await solicitud.insertarS(datos)
                     .then(async j => {
-                        console.log(j[0].insertId, 'data selecionada despues insertar un registro')
-                        ids.push(j[0].insertId)
+                        let dato = j[0].insertId
+                        console.log(dato, 'data selecionada despues insertar un registro')
+                        ids.push(dato)
                         let codigo = 'S-' + j[0].insertId + usuario
                         if (j.affectedRows !== 0) {
                             c++

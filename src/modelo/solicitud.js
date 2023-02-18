@@ -187,15 +187,17 @@ export class Solicitud {
 
 
 
-    insertarS = async (datos, ids) => {
+    insertarS = async (datos, ids = null) => {
         // console.log(datos)
         // const sqlExists = `SELECT * FROM solicitud WHERE codigoSol = ${pool.escape(datos.codigoSol)}`;
         // const [result] = await pool.query(sqlExists)
 
         // if (result.length === 0) {
         const resultado = await pool.query("INSERT INTO solicitud SET  ?", datos)
-        ids.push(resultado[0].insertId)
-        console.log('insertando inds el modelo de la solicitud', resultado[0].insertId)
+        if (ids) {
+            ids.push(resultado[0].insertId)
+            console.log('insertando inds el modelo de la solicitud', resultado[0].insertId)
+        }
         return resultado
         // } else {
         //     return {
@@ -708,7 +710,7 @@ export class Solicitud {
         // console.log(await this.verSolicitud(dato.codigoSol))
         return await this.listarA()
     }
-  
+
 
     buscarA = async (dato) => {
         console.log(dato)

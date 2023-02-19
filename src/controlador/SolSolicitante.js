@@ -276,7 +276,7 @@ rutas.post("/actualizarS", sEditar, async (req, res) => {
                         diagnostico,
                         horaSol: hora,
                     }
-                    solicitud.insertarS(datos).then(j => {
+                    solicitud.insertarS(datos ).then(j => {
                         if (j.affectedRows !== 0) {
                             c++
                             if (req.body.examen.length === c) {

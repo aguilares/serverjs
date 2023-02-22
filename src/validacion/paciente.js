@@ -6,7 +6,8 @@ export const insertar = [
 
     check('ci')
         .exists()
-        .isLength({ min: 3, max: 20 }),
+        .isLength({ min: 3, max: 20 })
+        .matches(/^\d{5,10}((\s|[-])\d{1}[A-Z]{1})?$/),
 
     check('nombre')
         .exists()

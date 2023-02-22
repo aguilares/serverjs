@@ -55,7 +55,7 @@ export const editar = [
     check('id').isLength({ min: 1 }).exists().isNumeric(),
     check('ci')
         .exists()
-        .matches(/^[0-9-]{7,12}$/)
+        .matches(/^\d{5,10}((\s|[-])\d{1}[A-Z]{1})?$/)
         .isLength({ min: 3, max: 20 }),
     check('nombre')
         .exists()

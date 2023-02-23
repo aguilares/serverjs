@@ -309,7 +309,7 @@ rutas.use("/solicitudA", verificacion, rolesAutorizador, solicitudAdmin)
 
 // ****************************************************SOLICITANTE**********************************
 rutas.use("/paciente", verificacion, rolesSolicitante, paciente)
-rutas.use("/solicitudS", verificacion, rolesSolicitante, solicitudSolicitante)
+rutas.use("/solicitudS",verificacion, rolesSolicitante, solicitudSolicitante)
 
 
 // ****************************************************LABORATORISTA**********************************

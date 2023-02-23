@@ -334,7 +334,7 @@ rutas.post("/ver", ver, async (req, res) => {
 
 
 rutas.post("/cardex", lista, async (req, res) => {
-    // console.log(req.body, 'lista after')
+    console.log(req.body, 'lista after')
     const { id } = req.body
     const dato1 = {
         id,

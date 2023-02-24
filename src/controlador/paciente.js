@@ -155,10 +155,7 @@ rutas.post("/eliminar", eliminar, async (req, res) => {
         const id = req.body.id;
 
         await paciente.eiminar(id).then(j => {
-            if (j.existe === 1) {
-                return res.json({ msg: 'ya existe el registro' })
-            }
-            return res.json({ data: j, ok: true })
+            return res.json(j)
         })
 
     } catch (error) {

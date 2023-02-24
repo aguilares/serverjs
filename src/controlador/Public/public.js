@@ -73,7 +73,7 @@ rutas.get("/registrarme", insertar, async (req, res) => {
                 html: ` 
                     <div> 
                     <p>Hola ${nombre + ' ' + apellidoPaterno + ' ' + apellidoMaterno} </p> 
-                    <p>Su cuaenta en el sistema de solictudes de servicios complementarios ha sido creada con exito.</p> 
+                    <p>Su cuenta en el sistema de solicitudes de servicios complementarios ha sido creada con exito.</p> 
                     <p>En las próximas horas se hara la correspondiente validacion para otorgarle el acceso al sistema.</p> 
 
                     <h3>Sus credenciales de acceso son:</h3>

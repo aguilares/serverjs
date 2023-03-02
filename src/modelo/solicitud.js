@@ -99,6 +99,7 @@ export class Solicitud {
 
 
     cardexEspecifico = async (dato) => {
+        console.log('datos ', dato)
         const sql =
             `SELECT s.eliminar, s.observacion, COUNT(*) as cantidad, s.id,DATE_FORMAT(s.fecha, "%Y-%m-%d") as fecha,item.nombre as servicio,
             upper(concat(p.nombre, " ",p.apellidoPaterno, " " , p.apellidoMaterno)) as paciente,s.diagnostico,
@@ -107,8 +108,7 @@ export class Solicitud {
             inner join paciente p on s.idPaciente = p.id
             inner join itemservicio item on s.idItemServicio = item.id
             where p.id =${pool.escape(dato.id)} and (
-                s.codigoSol = ${pool.escape(dato.campo)} or  s.fecha = ${pool.escape(dato.campo)} 
-            )
+            s.codigoSol like '${dato.campo}%')
             and  item.encabezado = true
             GROUP BY s.codigoSol order by s.id desc `;
         const [rows] = await pool.query(sql)

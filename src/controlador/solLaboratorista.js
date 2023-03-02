@@ -41,6 +41,7 @@ const fileUpload = multer({
 
 rutas.post("/insertarResultadoImagen", fileUpload, async (req, res) => {
     try {
+        console.log(req.query)
         const { id, nombreArchivo, codigo, obs } = req.query
 
 
